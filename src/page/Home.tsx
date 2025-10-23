@@ -3,7 +3,7 @@ import { useState } from "react";
 function Home() {
   return (
     <div>
-      <div>Home</div>
+      <div className="text-3xl font-bold underline">Home</div>
     </div>
   );
 }
