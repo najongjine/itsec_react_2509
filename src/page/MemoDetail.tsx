@@ -54,7 +54,9 @@ export default function MemoDetail() {
 
   async function onDelete() {
     try {
-      alert(memo?.id);
+      if (!confirm("정말 삭제 하시겠습니까?")) {
+        return;
+      }
       const formData = new FormData();
       formData.append("id", String(memo?.id ?? 0));
       const response = await fetch(`${API_BASE_URL}/api/board/delete`, {
