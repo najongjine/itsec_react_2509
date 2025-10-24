@@ -4,6 +4,7 @@ import Header from "./component/Header";
 import Home from "./page/Home";
 import Footer from "./component/Footer";
 import MemoDetail from "./page/MemoDetail";
+import MemoUpsert from "./page/MemoUpsert";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/memo_detail" element={<MemoDetail />} />
+          <Route path="/memo_upsert" element={<MemoUpsert />} />
         </Routes>
         <Footer />
       </BrowserRouter>
