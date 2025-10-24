@@ -52,6 +52,29 @@ export default function MemoDetail() {
     }
   }
 
+  async function onDelete() {
+    try {
+      alert(memo?.id);
+      const formData = new FormData();
+      formData.append("id", String(memo?.id ?? 0));
+      const response = await fetch(`${API_BASE_URL}/api/board/delete`, {
+        method: "POST",
+        body: formData,
+        headers: {
+          Authorization: "",
+        },
+      });
+      const result = await response.json(); // 서버 응답을 JSON으로 파싱
+      if (!result?.success) {
+        alert(`삭제 실패. ${result?.msg}`);
+        return;
+      }
+      navigate("/");
+    } catch (error: any) {
+      console.log(`서버 에러! ${error?.message ?? ""}`);
+    }
+  }
+
   return (
     <div className="content-margin-padding">
       <div>상세내용</div>
@@ -60,7 +83,7 @@ export default function MemoDetail() {
       <div>내용: {memo?.content}</div>
 
       <button
-        onClick={(event) => {
+        onClick={() => {
           onMemoUpsert(memo?.id ?? 0);
         }}
       >
@@ -68,25 +91,8 @@ export default function MemoDetail() {
       </button>
       <br />
       <button
-        onClick={async () => {
-          try {
-            const formData = new FormData();
-            formData.append("id", String(memo?.id ?? 0));
-            const response = await fetch(`${API_BASE_URL}/api/board/delete`, {
-              method: "POST",
-              headers: {
-                Authorization: "",
-              },
-            });
-            const result = await response.json(); // 서버 응답을 JSON으로 파싱
-            if (!result?.success) {
-              alert(`삭제 실패. ${result?.msg}`);
-              return;
-            }
-            navigate("/");
-          } catch (error: any) {
-            console.log(`서버 에러! ${error?.message ?? ""}`);
-          }
+        onClick={() => {
+          onDelete();
         }}
       >
         삭제
