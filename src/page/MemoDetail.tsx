@@ -66,7 +66,7 @@ export default function MemoDetail() {
       >
         수정
       </button>
-
+      <br />
       <button
         onClick={async () => {
           try {
@@ -91,14 +91,15 @@ export default function MemoDetail() {
       >
         삭제
       </button>
-
+      <br />
       <button
         onClick={() => {
-          navigate(`/memo`);
+          navigate(`/`);
         }}
       >
         리스트로 이동
       </button>
+      <br />
     </div>
   );
 }
