@@ -1,98 +1,91 @@
-// src/App.tsx
+import React, { useState } from 'react';
+import { useAuthStore } from '../stores/authStore';
+import { UserInfoType } from '../types/global_types'; // 타입 경로는 필요에 따라 수정하세요.
 
-import React from 'react';
-import { useAuthStore } from './stores/authStore';
-import type { UserInfoType } from './types/global_types'; // 가정한 타입 경로
-
-// --- 1. 사용자 정보를 표시하는 컴포넌트 (Store 상태 읽기) ---
-const UserProfile: React.FC = () => {
-  // `selectIsLoggedIn` 셀렉터를 사용하여 로그인 여부를 효율적으로 확인
-  const isLoggedIn = useAuthStore((state) => state.userInfo !== null); 
+const DataExampleComponent: React.FC = () => {
+  // 1. 상태 읽기 (READ)
+  // useAuthStore 훅을 통해 현재 상태에서 userInfo를 가져옵니다.
+  // 이 방법은 상태가 바뀔 때만 리렌더링됩니다.
   const userInfo = useAuthStore((state) => state.userInfo);
   
-  if (!isLoggedIn || !userInfo) {
-    return (
-      <div style={{ padding: '15px', border: '1px solid #ccc', borderRadius: '5px' }}>
-        <h3>👤 사용자 프로필</h3>
-        <p>로그아웃 상태입니다.</p>
-      </div>
-    );
-  }
+  // 2. 액션 함수 가져오기 (SET을 위한 함수)
+  const { login, logout } = useAuthStore((state) => ({
+    login: state.login,
+    logout: state.logout,
+  }));
 
-  return (
-    <div style={{ padding: '15px', border: '1px solid #007bff', borderRadius: '5px', marginTop: '20px' }}>
-      <h3>✅ 로그인된 사용자 정보</h3>
-      <p>UID: **{userInfo.uidVarchar}**</p>
-      <p>이름: **{userInfo.displayName}** ({userInfo.realName})</p>
-      <p>이메일: **{userInfo.emailVarchar}**</p>
-      <p>토큰 (길이): {userInfo.token.length}</p>
-    </div>
-  );
-};
-
-// --- 2. 로그인/로그아웃을 처리하는 컴포넌트 (Store 액션 호출) ---
-const LoginComponent: React.FC = () => {
-  // 상태와 액션을 스토어에서 한 번에 가져오기
-  const { userInfo, login, logout } = useAuthStore();
   const isLoggedIn = userInfo !== null;
 
-  // 더미 로그인 정보 생성 함수 (실제로는 Firebase 로그인 결과 + 서버 DB 정보)
-  const getDummyUserInfo = (): UserInfoType => ({
-    id: 101,
-    username: 'fire_user_1',
+  // 더미 데이터
+  const dummyUser: UserInfoType = {
+    id: 99,
+    username: 'zustand_tester',
     createdDt: new Date().toISOString(),
     updatedDt: new Date().toISOString(),
-    realName: '김개발',
-    profileUrl: 'https://example.com/p/kim',
-    uidVarchar: 'google-firebase-uid-abc123xyz', // Firebase UID
-    emailVarchar: 'kim.dev@google.com',
-    displayName: 'Kim Dev',
-    providerId: 'google.com',
-    metadata: '{"lastSignInTime":"..."}',
-    token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJmaXJlYmFzZS11aWQtYWJjMTIzeHl6IiwiaWF0IjoxNjQyMjAxMjAwfQ.SFlU6F0L4pYQ7a', // 더미 JWT
-  });
-
-  const handleLogin = () => {
-    const newUser = getDummyUserInfo();
-    login(newUser, newUser.token); // 로그인 액션 호출
-    alert('로그인 성공! 상태가 Zustand에 저장되었습니다.');
+    realName: 'Zustand 사용자',
+    profileUrl: 'http://placeholder.com/user.png',
+    uidVarchar: 'test-uid-112233',
+    emailVarchar: 'test@example.com',
+    displayName: 'Test User',
+    providerId: 'manual',
+    metadata: '{"source":"example"}',
+    token: 'test-auth-token-12345',
   };
 
-  const handleLogout = () => {
-    logout(); // 로그아웃 액션 호출
-    alert('로그아웃 성공! 상태가 로컬 스토리지에서 제거되었습니다.');
+  const handleSetData = () => {
+    // 3. 데이터 설정 (SET) - login 액션 호출
+    login(dummyUser, dummyUser.token);
+    console.log('데이터 저장(Set) 완료.');
+  };
+
+  const handleClearData = () => {
+    // 4. 데이터 제거 (CLEAR / Set to Null) - logout 액션 호출
+    logout();
+    console.log('데이터 제거(Clear) 완료.');
   };
 
   return (
-    <div style={{ marginTop: '30px' }}>
-      {isLoggedIn ? (
+    <div style={{ fontFamily: 'Arial, sans-serif', padding: '20px', border: '2px solid #333', borderRadius: '8px' }}>
+      <h2 style={{ borderBottom: '2px solid #333', paddingBottom: '10px' }}>Zustand 데이터 관리 예제</h2>
+      
+      {/* 데이터 설정 및 제거 버튼 */}
+      <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
         <button 
-          onClick={handleLogout} 
-          style={{ padding: '10px 20px', backgroundColor: '#dc3545', color: 'white', border: 'none', cursor: 'pointer' }}
+          onClick={handleSetData} 
+          disabled={isLoggedIn}
+          style={{ padding: '10px 15px', backgroundColor: isLoggedIn ? '#ccc' : '#28a745', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' }}
         >
-          👋 로그아웃
+          데이터 저장 (Set)
         </button>
+        <button 
+          onClick={handleClearData} 
+          disabled={!isLoggedIn}
+          style={{ padding: '10px 15px', backgroundColor: !isLoggedIn ? '#ccc' : '#dc3545', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' }}
+        >
+          데이터 제거 (Clear)
+        </button>
+      </div>
+
+      {/* 데이터 읽기 결과 */}
+      <h3>데이터 읽기 (Read Result)</h3>
+      
+      {userInfo ? (
+        <div style={{ backgroundColor: '#f0fff4', padding: '15px', border: '1px solid #c3e6cb', borderRadius: '5px' }}>
+          <p style={{ color: '#28a745', fontWeight: 'bold' }}>✅ **데이터가 존재합니다 (로그인 상태)**</p>
+          <ul style={{ listStyleType: 'none', padding: '0' }}>
+            <li>**UID:** {userInfo.uidVarchar}</li>
+            <li>**이름:** {userInfo.displayName}</li>
+            <li>**이메일:** {userInfo.emailVarchar}</li>
+            <li>**토큰:** {userInfo.token.substring(0, 15)}...</li>
+          </ul>
+        </div>
       ) : (
-        <button 
-          onClick={handleLogin} 
-          style={{ padding: '10px 20px', backgroundColor: '#28a745', color: 'white', border: 'none', cursor: 'pointer' }}
-        >
-          🔑 Google 로그인 시뮬레이션
-        </button>
+        <div style={{ backgroundColor: '#fff0f0', padding: '15px', border: '1px solid #f5c6cb', borderRadius: '5px' }}>
+          <p style={{ color: '#dc3545', fontWeight: 'bold' }}>❌ **데이터가 없습니다 (로그아웃 상태)**</p>
+        </div>
       )}
     </div>
   );
 };
 
-// --- 3. 메인 앱 레이아웃 ---
-const App: React.FC = () => {
-  return (
-    <div style={{ fontFamily: 'Arial, sans-serif', padding: '40px', maxWidth: '600px', margin: '0 auto' }}>
-      <h1>Zustand Auth Store 예제</h1>
-      <LoginComponent />
-      <UserProfile />
-    </div>
-  );
-};
-
-export default App;
+export default DataExampleComponent;
