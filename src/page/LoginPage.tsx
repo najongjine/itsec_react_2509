@@ -8,6 +8,7 @@ import { auth } from "../utils/firebaseConfig";
 const LoginPage: React.FC = () => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [error, setError] = useState<string | null>(null);
+  currentUser;
 
   // 컴포넌트 마운트 시, 로그인 상태 변화 리스너 설정 (선택 사항)
   React.useEffect(() => {
@@ -30,7 +31,7 @@ const LoginPage: React.FC = () => {
   const handleSuccess = (user: User) => {
     setCurrentUser(user);
     setError(null);
-    alert(`로그인 성공! 환영합니다, ${user.displayName || user.email}`);
+    //alert(`로그인 성공! 환영합니다, ${user.displayName || user.email}`);
   };
 
   const handleError = (err: Error) => {
