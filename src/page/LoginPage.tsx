@@ -4,11 +4,15 @@ import React, { useState } from "react";
 import type { User } from "firebase/auth";
 import GoogleSignInCompo from "../component/GoogleSignInCompo";
 import { auth } from "../utils/firebaseConfig";
+import { useAuthStore } from "../store/authStore";
+import * as gtypes from "../types/global_types"; // 타입 경로는 필요에 따라 수정하세요.
+import { useNavigate } from "react-router-dom";
 
 const LoginPage: React.FC = () => {
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [error, setError] = useState<string | null>(null);
-  currentUser;
+  const navigate = useNavigate();
 
   // 컴포넌트 마운트 시, 로그인 상태 변화 리스너 설정 (선택 사항)
   React.useEffect(() => {
@@ -28,10 +32,38 @@ const LoginPage: React.FC = () => {
     }
   };
 
-  const handleSuccess = (user: User) => {
+  const handleSuccess = async (user: User) => {
     setCurrentUser(user);
     setError(null);
     //alert(`로그인 성공! 환영합니다, ${user.displayName || user.email}`);
+    /*
+    profileUrl: string;
+  uid: string;
+  email: string;
+  displayName: string;
+  providerId: string;
+  metadata: string;
+     */
+    const formData = new FormData();
+    formData.append("profileUrl", String(user?.photoURL ?? ""));
+    formData.append("uid", String(user?.uid ?? ""));
+    formData.append("email", String(user?.email ?? ""));
+    formData.append("displayName", String(user?.displayName ?? ""));
+    formData.append("providerId", String(user?.providerId ?? ""));
+    formData.append("metadata", JSON.stringify(user?.metadata ?? ""));
+    const response = await fetch(`${API_BASE_URL}/api/board/delete`, {
+      method: "POST",
+      body: formData,
+      headers: {
+        Authorization: "",
+      },
+    });
+    const result = await response.json(); // 서버 응답을 JSON으로 파싱
+    if (!result?.success) {
+      alert(`삭제 실패. ${result?.msg}`);
+      return;
+    }
+    navigate("/");
   };
 
   const handleError = (err: Error) => {

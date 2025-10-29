@@ -14,8 +14,8 @@ export interface UserInfoType {
   updatedDt: string;
   realName: string;
   profileUrl: string;
-  uidVarchar: string;
-  emailVarchar: string;
+  uid: string;
+  email: string;
   displayName: string;
   providerId: string;
   metadata: string;
