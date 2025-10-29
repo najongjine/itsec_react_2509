@@ -60,7 +60,7 @@ const LoginPage: React.FC = () => {
     });
     const result = await response.json(); // 서버 응답을 JSON으로 파싱
     if (!result?.success) {
-      alert(`삭제 실패. ${result?.msg}`);
+      alert(`로그인 실패. ${result?.msg}`);
       return;
     }
     navigate("/");
