@@ -51,7 +51,7 @@ const LoginPage: React.FC = () => {
     formData.append("displayName", String(user?.displayName ?? ""));
     formData.append("providerId", String(user?.providerId ?? ""));
     formData.append("metadata", JSON.stringify(user?.metadata ?? ""));
-    const response = await fetch(`${API_BASE_URL}/api/board/delete`, {
+    const response = await fetch(`${API_BASE_URL}/api/user/login_v2`, {
       method: "POST",
       body: formData,
       headers: {
