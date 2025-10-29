@@ -33,6 +33,7 @@ const LoginPage: React.FC = () => {
   const handleSignOut = async () => {
     try {
       await auth.signOut();
+      logout();
     } catch (e) {
       alert("로그아웃 오류 발생!");
     }
