@@ -7,6 +7,7 @@ import { auth } from "../utils/firebaseConfig";
 import { useAuthStore } from "../store/authStore";
 import * as gtypes from "../types/global_types"; // 타입 경로는 필요에 따라 수정하세요.
 import { useNavigate } from "react-router-dom";
+import { useShallow } from "zustand/react/shallow";
 
 const LoginPage: React.FC = () => {
   // 1. 상태 읽기 (READ)
@@ -15,10 +16,12 @@ const LoginPage: React.FC = () => {
   const userInfo = useAuthStore((state) => state.userInfo);
 
   // 2. 액션 함수 가져오기 (SET을 위한 함수)
-  const { login, logout } = useAuthStore((state) => ({
-    login: state.login,
-    logout: state.logout,
-  }));
+  const { login, logout } = useAuthStore(
+    useShallow((state) => ({
+      login: state.login,
+      logout: state.logout,
+    }))
+  );
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
@@ -74,7 +77,7 @@ const LoginPage: React.FC = () => {
       token: token, // 토큰 추가
     };
 
-    login(fullUserInfo, token);
+    login(fullUserInfo);
     navigate("/");
   };
 

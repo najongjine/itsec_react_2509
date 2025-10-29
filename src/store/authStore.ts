@@ -11,7 +11,7 @@ interface AuthState {
   userInfo: gtypes.UserInfoType | null;
 
   // 액션 함수 정의
-  login: (userInfo: gtypes.UserInfoType, token: string) => void;
+  login: (userInfo: gtypes.UserInfoType) => void;
   logout: () => void;
 }
 
@@ -23,14 +23,11 @@ export const useAuthStore = create<AuthState>()(
       userInfo: null,
 
       // 로그인 액션
-      login: (userInfo, token) =>
+      login: (userInfo) =>
         set(
           {
             // userInfo에 데이터가 있으면 로그인된 상태로 간주
-            userInfo: {
-              ...userInfo,
-              token: token,
-            },
+            userInfo: userInfo,
           },
           false,
           "auth/login"
