@@ -4,8 +4,8 @@ import * as gtypes from "../types/global_types";
 import * as utils from "../utils/utils";
 import { useShallow } from "zustand/shallow";
 import { useAuthStore } from "../store/authStore";
-import "./Home.css";
 import { auth } from "../utils/firebaseConfig";
+import "./Home.css";
 
 export default function Home() {
   // 이 방법은 상태가 바뀔 때만 리렌더링됩니다.
