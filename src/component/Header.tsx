@@ -1,8 +1,22 @@
 import { useState } from "react"; // useState 추가
 import "./Header.css";
 import { Link } from "react-router-dom";
+import { useAuthStore } from "../store/authStore";
+import { useShallow } from "zustand/shallow";
 
 export default function Header() {
+  // 1. 상태 읽기 (READ)
+  // useAuthStore 훅을 통해 현재 상태에서 userInfo를 가져옵니다.
+  // 이 방법은 상태가 바뀔 때만 리렌더링됩니다.
+  const userInfo = useAuthStore((state) => state.userInfo);
+
+  // 2. 액션 함수 가져오기 (SET을 위한 함수)
+  const { login, logout } = useAuthStore(
+    useShallow((state) => ({
+      login: state.login,
+      logout: state.logout,
+    }))
+  );
   // UI 구현을 위한 임시 상태. 실제 기능 구현 시 변경될 수 있습니다.
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태
   const [userName, setUserName] = useState("a.com"); // 유저 이름
