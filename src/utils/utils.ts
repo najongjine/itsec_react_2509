@@ -27,6 +27,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
  */
 export async function verify_token(token: string) {
   try {
+    if (!token) token = userInfo?.token ?? "";
     const response = await fetch(`${API_BASE_URL}/api/user/verify_token`, {
       method: "POST",
       body: token,
