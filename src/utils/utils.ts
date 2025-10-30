@@ -25,9 +25,8 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
  * 토큰이 정상이면 아무것도 안함.
  * return 값들은 혹시 몰라서 그냥 만들어 놓음.
  */
-export async function verify_token(token: string) {
+export async function verify_token(token: string = userInfo?.token ?? "") {
   try {
-    if (!token) token = userInfo?.token ?? "";
     const response = await fetch(`${API_BASE_URL}/api/user/verify_token`, {
       method: "POST",
       body: token,
