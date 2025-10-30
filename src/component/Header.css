@@ -2,6 +2,48 @@ header {
   background-color: #f1f1f1;
   padding: 10px;
   text-align: center;
+  /* header 내에서 자식 요소(.header-right)의 위치 기준이 됩니다. */
+  position: relative;
+}
+
+/* Style the right-side container */
+.header-right {
+  /* 헤더 오른쪽 상단에 위치시키기 위해 절대 위치 사용 */
+  position: absolute;
+  right: 10px; /* 오른쪽에서 10px 여백 */
+  top: 50%; /* 상단에서 50% 위치 */
+  /* 요소를 Y축으로 -50% 이동시켜 수직 중앙 정렬 */
+  transform: translateY(-50%);
+  display: flex; /* 내부 요소들을 가로로 배열 */
+  align-items: center;
+  gap: 10px; /* 유저 정보와 버튼 사이 간격 */
+}
+
+/* 유저 정보 텍스트 스타일 */
+.user-info {
+  font-weight: bold;
+  font-size: 16px;
+  color: #333333;
+}
+
+/* 로그인/로그아웃 버튼 스타일 */
+.auth-button {
+  background-color: #555555;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition-duration: 0.4s;
+}
+
+.auth-button:hover {
+  background-color: #333333;
 }
 
 /* Style the topnav */
