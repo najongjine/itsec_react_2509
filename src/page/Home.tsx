@@ -23,17 +23,9 @@ export default function Home() {
   const [memo, setMemo] = useState<gtypes.Memotype[]>([]);
 
   useEffect(() => {
-    validation();
+    utils.verify_token(userInfo?.token ?? "");
     getMemoList();
   }, []);
-
-  async function validation() {
-    let result = await utils.verify_token(userInfo?.token ?? "");
-    if (result.includes("인증실패")) {
-      await auth.signOut();
-      logout();
-    }
-  }
 
   function onMemoDetail(id = 0) {
     navigate(`/memo_detail?id=${id}`);
