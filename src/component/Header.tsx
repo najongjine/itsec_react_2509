@@ -30,7 +30,13 @@ export default function Header() {
               <span className="user-info">
                 {userInfo?.displayName ?? ""}님 환영합니다
               </span>
-              <button className="auth-button" onClick={() => {}}>
+              <button
+                className="auth-button"
+                onClick={() => {
+                  logout();
+                  navigate("/");
+                }}
+              >
                 로그아웃
               </button>
             </>
@@ -39,7 +45,7 @@ export default function Header() {
             <button
               className="auth-button"
               onClick={() => {
-                navigate("/");
+                navigate("/login");
               }}
             >
               로그인
