@@ -20,11 +20,11 @@ export default function Home() {
   );
   const navigate = useNavigate();
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-  const [memo, setMemo] = useState<gtypes.Memotype[]>([]);
+  const [board, setBoard] = useState<gtypes.BoardType[]>([]);
 
   useEffect(() => {
     validation();
-    getMemoList();
+    getBoardList();
   }, []);
 
   async function validation() {
@@ -44,7 +44,7 @@ export default function Home() {
     navigate(`/memo_upsert?id=${id}`);
   }
 
-  async function getMemoList() {
+  async function getBoardList() {
     const fetchOption = {
       method: "GET",
       headers: {
@@ -53,7 +53,7 @@ export default function Home() {
     };
     let res: any = await fetch(`${API_BASE_URL}/api/board`, fetchOption);
     res = await res.json();
-    setMemo(res?.data ?? []);
+    setBoard(res?.data ?? []);
     console.log(`## res: `, res);
   }
 
@@ -62,18 +62,21 @@ export default function Home() {
       <div>메모 List</div>
 
       <div>
-        {memo.map((e) => (
-          <div className="memo-item-container" key={e?.id}>
+        {board.map((e) => (
+          <div className="memo-item-container" key={e?.board_id}>
             <div
               className="memo-content"
               onClick={() => {
-                onMemoDetail(e?.id);
+                onMemoDetail(e?.board_id);
               }}
             >
               {e.title}
             </div>
             <div className="memo-info-actions">
-              <div className="memo-date">{e.createdDt}</div>
+              <div className="memo-date">{e?.user_display_name ?? "test"} </div>
+            </div>
+            <div className="memo-info-actions">
+              <div className="memo-date">{e.board_created_dt}</div>
             </div>
           </div>
         ))}
