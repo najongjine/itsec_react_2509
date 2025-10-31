@@ -21,3 +21,16 @@ export interface UserInfoType {
   metadata: string;
   token: string;
 }
+
+export interface BoardType {
+  board_id: number;
+  user_id: number;
+  board_created_dt: string;
+  board_updated_dt: string;
+  title: string;
+  content: string;
+  uid: string;
+  profile_url: string;
+  email: string;
+  user_display_name: string;
+}
