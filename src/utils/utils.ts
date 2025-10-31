@@ -10,7 +10,7 @@ export async function verify_token(token: string) {
   try {
     const response = await fetch(`${API_BASE_URL}/api/user/verify_token`, {
       method: "POST",
-      body: token,
+      body: JSON.stringify({ token: token }),
     });
     const result: any = await response.json();
     if (!result?.success) {

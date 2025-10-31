@@ -30,6 +30,7 @@ export default function Home() {
   async function validation() {
     let result = await utils.verify_token(userInfo?.token ?? "");
     if (result.includes("인증실패")) {
+      alert(`${result}. 로그인을 다시 해주세요.`);
       await auth.signOut();
       logout();
     }
