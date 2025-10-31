@@ -6,6 +6,8 @@ import Footer from "./component/Footer";
 import MemoDetail from "./page/MemoDetail";
 import MemoUpsert from "./page/MemoUpsert";
 import LoginPage from "./page/LoginPage";
+import Calc from "./page/Calc";
+import Lotto from "./page/Lotto";
 
 function App() {
   return (
@@ -17,6 +19,8 @@ function App() {
           <Route path="/memo_detail" element={<MemoDetail />} />
           <Route path="/memo_upsert" element={<MemoUpsert />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/calc" element={<Calc />} />
+          <Route path="/lotto" element={<Lotto />} />
         </Routes>
         <Footer />
       </BrowserRouter>
