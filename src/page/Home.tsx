@@ -81,10 +81,11 @@ export default function Home() {
             >
               {e.title}
             </div>
+
             <div className="memo-info-actions">
-              <div className="memo-date">{e?.user_display_name ?? "test"} </div>
-            </div>
-            <div className="memo-info-actions">
+              <div className="memo-date">
+                {e?.user_display_name ?? "test-user"}{" "}
+              </div>
               <div className="memo-date">{e.board_created_dt}</div>
             </div>
           </div>
