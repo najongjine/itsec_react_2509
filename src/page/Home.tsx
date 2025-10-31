@@ -51,10 +51,19 @@ export default function Home() {
         Authorization: "",
       },
     };
-    let res: any = await fetch(`${API_BASE_URL}/api/board`, fetchOption);
-    res = await res.json();
-    setBoard(res?.data ?? []);
-    console.log(`## res: `, res);
+    try {
+      let res: any = await fetch(`${API_BASE_URL}/api/board`, fetchOption);
+      res = await res.json();
+      if (!res?.success) {
+        alert(`서버 에러. ${res?.msg ?? ""}`);
+        return;
+      }
+      setBoard(res?.data ?? []);
+      console.log(`## res: `, res);
+    } catch (error: any) {
+      alert(`에러. ${error?.message ?? ""}`);
+      return;
+    }
   }
 
   return (
