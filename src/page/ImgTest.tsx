@@ -6,6 +6,9 @@ export default function ImgTest() {
   return (
     <div className="content-margin-padding">
       <div>img test</div>
+      <div>
+        <img src="" />
+      </div>
     </div>
   );
 }

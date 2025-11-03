@@ -8,6 +8,7 @@ import MemoUpsert from "./page/MemoUpsert";
 import LoginPage from "./page/LoginPage";
 import Calc from "./page/Calc";
 import Lotto from "./page/Lotto";
+import ImgTest from "./page/ImgTest";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/calc" element={<Calc />} />
           <Route path="/lotto" element={<Lotto />} />
+          <Route path="/test" element={<ImgTest />} />
         </Routes>
         <Footer />
       </BrowserRouter>
