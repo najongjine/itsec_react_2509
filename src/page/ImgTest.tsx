@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 export default function ImgTest() {
   // 이미지를 문자열로 표현한 데이터(바이너리)
   const redDotBase64 =
-    "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEgAGlSgMhZgAAAABJRU5ErkJggg==";
+    "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9Ii0xMS41IC0xMC4yMzE3NCAyMyAyMC40NjM0OCI+CiAgPHRpdGxlPlJlYWN0IExvZ288L3RpdGxlPgogIDxjaXJjbGUgY3g9IjAiIGN5PSIwIiByPSIyLjA1IiBmaWxsPSIjNjFkYWZiIi8+CiAgPGcgc3Ryb2tlPSIjNjFkYWZiIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiPgogICAgPGVsbGlwc2UgaWQ9ImVsMCIgY3g9IjAiIGN5PSIwIiByeD0iMTEiIHJ5PSI0LjIiLz4KICAgIDx1c2UgaHJlZj0iI2VsMCIgdHJhbnNmb3JtPSJyb3RhdGUoNjApIi8+CiAgICA8dXNlIGhyZWY9IiNlbDAiIHRyYW5zZm9ybT0icm90YXRlKDEyMCkiLz4KICA8L2c+Cjwvc3ZnPg==";
   useEffect(() => {}, []);
 
   return (
