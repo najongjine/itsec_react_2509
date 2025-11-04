@@ -2,6 +2,11 @@ import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import * as gtypes from "../types/global_types";
 
+// 기존에 생성된 URL을 해제(revoke)하는 함수
+const revokeUrls = (urls: string[]) => {
+  urls.forEach((url) => URL.revokeObjectURL(url));
+};
+
 export default function MemoUpsert() {
   const [searchParams] = useSearchParams();
   const memoId = Number(searchParams?.get("id") ?? 0);
@@ -14,35 +19,32 @@ export default function MemoUpsert() {
     id: 0,
     title: "",
   });
-  // 선택된 이미지 파일의 URL을 저장할 state
-  const [imagePreviewUrl, setImagePreviewUrl] = useState<any>(null);
-  // 선택된 실제 파일 객체를 저장할 state (필요시 사용)
-  const [imageFile, setImageFile] = useState<any>(null);
+  const [imagePreviewUrls, setImagePreviewUrls] = useState<string[]>([]);
+  const [imageFiles, setImageFiles] = useState<File[]>([]);
 
   useEffect(() => {
     getMemo();
+    return () => {
+      revokeUrls(imagePreviewUrls);
+    };
   }, []);
 
   // 파일 선택 변경 시 호출되는 핸들러 함수
-  const handleImageChange = (e: any) => {
-    const file = e.target.files[0];
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFiles = e.target.files ? Array.from(e.target.files) : [];
+    revokeUrls(imagePreviewUrls);
 
-    if (file) {
-      // 1. 기존 URL이 있으면 해제
-      if (imagePreviewUrl) {
-        URL.revokeObjectURL(imagePreviewUrl);
-      }
+    if (selectedFiles.length > 0) {
+      // 새로운 파일 객체 목록 저장
+      setImageFiles(selectedFiles);
 
-      // 2. 새로운 파일 객체 저장
-      setImageFile(file);
-
-      // 3. 파일 URL을 생성하여 미리보기 state에 저장
-      const newUrl = URL.createObjectURL(file);
-      setImagePreviewUrl(newUrl);
+      // 파일 URL 목록을 생성하여 미리보기 state에 저장
+      const newUrls = selectedFiles.map((file) => URL.createObjectURL(file));
+      setImagePreviewUrls(newUrls);
     } else {
       // 파일 선택 취소 시 초기화
-      setImageFile(null);
-      setImagePreviewUrl(null);
+      setImageFiles([]);
+      setImagePreviewUrls([]);
     }
   };
 
@@ -118,29 +120,46 @@ export default function MemoUpsert() {
         <input
           type="file"
           accept="image/*" // 이미지 파일만 선택 가능하도록 설정
+          multiple
           onChange={handleImageChange}
-          style={{ marginBottom: "20px" }}
+          className="mb-4 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-white focus:outline-none"
         />
 
         {/* 2. 미리보기 영역 */}
-        {imagePreviewUrl ? (
-          <div style={{ marginTop: "10px" }}>
-            <h3>미리보기:</h3>
-            <img
-              src={imagePreviewUrl}
-              alt="Image Preview"
-              // 미리보기 이미지가 너무 커지지 않도록 최대 너비 설정
-              style={{
-                width: "300px" /* 너비 300 픽셀로 고정 */,
-                height: "200px" /* 높이 200 픽셀로 고정 */,
-                objectFit: "cover" /* 컨테이너에 맞게 비율을 유지하며 채움 */,
-                border: "2px solid #3498db",
-              }}
-            />
-            <p>파일 이름: **{imageFile?.name}**</p>
+        {/* 2. 미리보기 영역 */}
+        {imagePreviewUrls.length > 0 ? (
+          <div className="mt-4 border-t pt-4">
+            <h3 className="text-base font-medium mb-2">
+              미리보기 ({imageFiles.length}개):
+            </h3>
+            <div className="flex flex-wrap gap-4">
+              {/* URL 목록을 순회하며 모든 이미지 표시 */}
+              {imagePreviewUrls.map((url, index) => (
+                <div
+                  key={index}
+                  className="flex flex-col items-center p-2 border rounded-lg bg-white shadow-md"
+                >
+                  <img
+                    src={url}
+                    alt={`Image Preview ${index + 1}`}
+                    // 너비/높이를 픽셀로 고정
+                    style={{
+                      width: "150px" /* 너비 고정 */,
+                      height: "100px" /* 높이 고정 */,
+                      objectFit: "cover" /* 비율 유지하며 컨테이너 채움 */,
+                    }}
+                    className="rounded-md"
+                  />
+                  {/* 파일 이름 표시 (imageFiles 배열에서 가져옴) */}
+                  <p className="text-xs mt-1 truncate max-w-[150px]">
+                    **{imageFiles[index]?.name}**
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
         ) : (
-          <p>---</p>
+          <p className="text-sm text-gray-500">선택된 이미지가 없습니다.</p>
         )}
       </div>
 
