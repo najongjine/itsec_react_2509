@@ -88,7 +88,8 @@ export default function MemoUpsert() {
     formData.append("id", String(memo?.id ?? 0));
     if (imageFiles?.length > 0) {
       for (let file of imageFiles) {
-        formData.append("imgs", file);
+        console.log(`#imgs: `, file);
+        formData.append("imgs[]", file);
       }
     }
     try {
