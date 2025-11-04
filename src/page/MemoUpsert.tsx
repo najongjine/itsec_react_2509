@@ -112,6 +112,38 @@ export default function MemoUpsert() {
       <div>메모 작성</div>
 
       <div>
+        <h2>📥 이미지 파일 미리보기</h2>
+
+        {/* 1. 파일 입력 필드 */}
+        <input
+          type="file"
+          accept="image/*" // 이미지 파일만 선택 가능하도록 설정
+          onChange={handleImageChange}
+          style={{ marginBottom: "20px" }}
+        />
+
+        {/* 2. 미리보기 영역 */}
+        {imagePreviewUrl ? (
+          <div style={{ marginTop: "10px" }}>
+            <h3>미리보기:</h3>
+            <img
+              src={imagePreviewUrl}
+              alt="Image Preview"
+              // 미리보기 이미지가 너무 커지지 않도록 최대 너비 설정
+              style={{
+                maxWidth: "100%",
+                height: "auto",
+                border: "2px solid #3498db",
+              }}
+            />
+            <p>파일 이름: **{imageFile?.name}**</p>
+          </div>
+        ) : (
+          <p>👆 이미지를 선택해주세요.</p>
+        )}
+      </div>
+
+      <div>
         <form method="post" onSubmit={() => {}}>
           <div>
             <input
