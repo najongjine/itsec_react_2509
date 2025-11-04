@@ -113,7 +113,7 @@ export default function MemoUpsert() {
 
       <div>
         <h2>📥 이미지 파일 미리보기</h2>
-
+        <br />
         {/* 1. 파일 입력 필드 */}
         <input
           type="file"
