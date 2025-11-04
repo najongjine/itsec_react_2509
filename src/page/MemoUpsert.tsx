@@ -139,7 +139,7 @@ export default function MemoUpsert() {
             <p>파일 이름: **{imageFile?.name}**</p>
           </div>
         ) : (
-          <p>👆 이미지를 선택해주세요.</p>
+          <p>---</p>
         )}
       </div>
 
