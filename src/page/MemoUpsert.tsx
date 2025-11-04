@@ -131,8 +131,9 @@ export default function MemoUpsert() {
               alt="Image Preview"
               // 미리보기 이미지가 너무 커지지 않도록 최대 너비 설정
               style={{
-                maxWidth: "100%",
-                height: "auto",
+                width: "300px" /* 너비 300 픽셀로 고정 */,
+                height: "200px" /* 높이 200 픽셀로 고정 */,
+                objectFit: "cover" /* 컨테이너에 맞게 비율을 유지하며 채움 */,
                 border: "2px solid #3498db",
               }}
             />
