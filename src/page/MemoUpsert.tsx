@@ -86,6 +86,11 @@ export default function MemoUpsert() {
     formData.append("title", memo?.title ?? "");
     formData.append("content", memo?.content ?? "");
     formData.append("id", String(memo?.id ?? 0));
+    if (imageFiles?.length > 0) {
+      for (let file of imageFiles) {
+        formData.append("imgs", file);
+      }
+    }
     try {
       if (!memo.title || !memo.content) {
         alert(`제목과 내용을 입력해 주세요`);
