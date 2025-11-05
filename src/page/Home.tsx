@@ -48,7 +48,7 @@ export default function Home() {
     const fetchOption = {
       method: "GET",
       headers: {
-        Authorization: "",
+        Authorization: `Bearer ${userInfo?.token ?? ""}`,
       },
     };
     try {
