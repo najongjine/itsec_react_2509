@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import * as gtypes from "../types/global_types";
+import { useAuthStore } from "../store/authStore";
+import { useShallow } from "zustand/shallow";
+import * as utils from "../utils/utils";
+import { auth } from "../utils/firebaseConfig";
 
 // 기존에 생성된 URL을 해제(revoke)하는 함수
 const revokeUrls = (urls: string[]) => {
@@ -8,6 +12,16 @@ const revokeUrls = (urls: string[]) => {
 };
 
 export default function MemoUpsert() {
+  // 이 방법은 상태가 바뀔 때만 리렌더링됩니다.
+  const userInfo = useAuthStore((state) => state.userInfo);
+
+  // 2. 액션 함수 가져오기 (SET을 위한 함수)
+  const { login, logout } = useAuthStore(
+    useShallow((state) => ({
+      login: state.login,
+      logout: state.logout,
+    }))
+  );
   const [searchParams] = useSearchParams();
   const memoId = Number(searchParams?.get("id") ?? 0);
   const navigate = useNavigate();
@@ -23,11 +37,20 @@ export default function MemoUpsert() {
   const [imageFiles, setImageFiles] = useState<File[]>([]);
 
   useEffect(() => {
+    validation();
     getMemo();
     return () => {
       revokeUrls(imagePreviewUrls);
     };
   }, []);
+  async function validation() {
+    let result = await utils.verify_token(userInfo?.token ?? "");
+    if (result.includes("인증실패")) {
+      alert(`${result}. 로그인을 다시 해주세요.`);
+      await auth.signOut();
+      logout();
+    }
+  }
 
   // 파일 선택 변경 시 호출되는 핸들러 함수
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -101,7 +124,7 @@ export default function MemoUpsert() {
         method: "POST",
         body: formData, // FormData 객체를 body에 담습니다.
         headers: {
-          Authorization: "",
+          Authorization: `Bearer ${userInfo?.token ?? ""}`,
         },
       });
       const result = await response.json(); // 서버 응답을 JSON으로 파싱
