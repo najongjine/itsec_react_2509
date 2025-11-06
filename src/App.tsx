@@ -9,6 +9,7 @@ import LoginPage from "./page/LoginPage";
 import Calc from "./page/Calc";
 import Lotto from "./page/Lotto";
 import ImgTest from "./page/ImgTest";
+import MyEditor from "./page/MyEditor";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/calc" element={<Calc />} />
           <Route path="/lotto" element={<Lotto />} />
           <Route path="/test" element={<ImgTest />} />
+          <Route path="/editor" element={<MyEditor />} />
         </Routes>
         <Footer />
       </BrowserRouter>
