@@ -26,7 +26,7 @@ export default function MemoUpsert() {
   const memoId = Number(searchParams?.get("id") ?? 0);
   const navigate = useNavigate();
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-  const [memo, setMemo] = useState<gtypes.Memotype>({
+  const [memo, setMemo] = useState<gtypes.MemoStrtype>({
     content: "",
     createdDt: "",
     updatedDt: "",
