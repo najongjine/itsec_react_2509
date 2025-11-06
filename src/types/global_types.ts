@@ -1,9 +1,23 @@
 export interface Memotype {
-  content: string;
-  createdDt: string;
-  updatedDt: string;
-  id: number;
-  title: string;
+  board?: MemoStrtype;
+  imgs?: MemoImgstype[];
+}
+export interface MemoStrtype {
+  content?: string;
+  createdDt?: string;
+  updatedDt?: string;
+  id?: number;
+  title?: string;
+}
+export interface MemoImgstype {
+  filesize?: number;
+  createdDt?: string;
+  updatedDt?: string;
+  id?: number;
+  imgurl?: string;
+  minetype?: string;
+  originalFilename?: string;
+  uniqueFilename?: string;
 }
 
 export interface UserInfoType {
