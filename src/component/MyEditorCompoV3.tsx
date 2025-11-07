@@ -433,6 +433,7 @@ export default function MyEditorCompoV3() {
   const navigate = useNavigate();
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const [memo, setMemo] = useState<gtypes.MemoStrtype>({});
+  const [title, setTitle] = useState(""); // ⭐️⭐️ 제목 전용 상태 추가 ⭐️⭐️
   const [searchParams] = useSearchParams();
   const memoId = Number(searchParams?.get("id") ?? 0);
 
@@ -468,6 +469,7 @@ export default function MyEditorCompoV3() {
       }
       console.log(`# result?.data: `, result?.data);
       setMemo(result?.data);
+      setTitle(result?.data?.title ?? "");
     } catch (error: any) {
       console.log(`서버 에러! ${error?.message ?? ""}`);
     }
@@ -580,7 +582,7 @@ export default function MyEditorCompoV3() {
     const payload = {
       html: editor?.getHTML(),
       json: editor?.getJSON(),
-      title: memo?.title ?? "",
+      title: title,
     };
 
     console.log("--- Editor Content Saved ---");
@@ -614,12 +616,10 @@ export default function MyEditorCompoV3() {
       <input
         type="text"
         placeholder="여기에 제목을 입력하세요."
-        value={memo?.title ?? ""}
+        value={title}
         onChange={(event) => {
-          setMemo({
-            ...memo,
-            title: event?.target?.value ?? "",
-          });
+          // ⭐️ 수정: title 상태만 업데이트 (새 글쓰기 시에도 memo에 영향을 주지 않음)
+          setTitle(event?.target?.value ?? "");
         }}
         style={titleInputStyle}
       />
