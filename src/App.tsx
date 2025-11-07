@@ -10,6 +10,7 @@ import Calc from "./page/Calc";
 import Lotto from "./page/Lotto";
 import ImgTest from "./page/ImgTest";
 import MyEditor from "./page/MyEditor";
+import MemoDetailV2 from "./page/MemoDetailV2";
 
 function App() {
   return (
@@ -18,7 +19,7 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/memo_detail" element={<MemoDetail />} />
+          <Route path="/memo_detail" element={<MemoDetailV2 />} />
           <Route path="/memo_upsert" element={<MemoUpsert />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/calc" element={<Calc />} />

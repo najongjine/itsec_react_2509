@@ -8,6 +8,8 @@ export interface MemoStrtype {
   updatedDt?: string;
   id?: number;
   title?: string;
+  htmlContent?: string;
+  jsonContent?: string;
 }
 export interface MemoImgstype {
   filesize?: number;
