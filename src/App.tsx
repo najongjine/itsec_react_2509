@@ -20,7 +20,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/memo_detail" element={<MemoDetailV2 />} />
-          <Route path="/memo_upsert" element={<MemoUpsert />} />
+          <Route path="/memo_upsert" element={<MyEditor />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/calc" element={<Calc />} />
           <Route path="/lotto" element={<Lotto />} />

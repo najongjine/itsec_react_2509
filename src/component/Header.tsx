@@ -58,7 +58,7 @@ export default function Header() {
           <Link to="/">홈</Link>
         </li>
         <li>
-          <Link to="/memo">메모</Link>
+          <Link to="/memo_upsert">메모</Link>
         </li>
         <li>
           <Link to="/calc">계산기</Link>

@@ -11,7 +11,12 @@ import { AdvancedImage } from "@cloudinary/react";
 import { TextStyle } from "@tiptap/extension-text-style";
 import { Color } from "@tiptap/extension-color";
 import TextAlign from "@tiptap/extension-text-align";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { useAuthStore } from "../store/authStore";
+import { useShallow } from "zustand/shallow";
+import * as utils from "../utils/utils";
+import { auth } from "../utils/firebaseConfig";
+import * as gtypes from "../types/global_types";
 
 const btn: React.CSSProperties = {
   padding: "6px 10px",
@@ -43,6 +48,23 @@ const alignmentSelectStyle: React.CSSProperties = {
   ...selectStyle,
   width: "120px",
   fontWeight: "bold",
+};
+const titleInputStyle: React.CSSProperties = {
+  width: "100%",
+  fontSize: "28px",
+  fontWeight: "800",
+  border: "none",
+  padding: "16px",
+  outline: "none",
+  background: "transparent",
+  boxSizing: "border-box",
+  lineHeight: "1.2",
+  // ⚠️ 수정: 툴바와의 간격 제거
+  marginBottom: "0",
+  // ⚠️ 추가: 에디터 컨테이너와 동일한 상단 둥근 모서리 적용
+  borderTopLeftRadius: 12,
+  borderTopRightRadius: 12,
+  borderBottom: "1px solid #ddd", // 툴바와 분리선 추가
 };
 
 /** (선택) 서버 업로드 훅 */
@@ -237,8 +259,8 @@ function Toolbar({ editor }: { editor: any }) {
         padding: 8,
         // 툴바의 시각적 분리
         borderBottom: "1px solid #ddd",
-        borderTopLeftRadius: 12,
-        borderTopRightRadius: 12,
+        borderTopLeftRadius: 0,
+        borderTopRightRadius: 0,
         background: "#fafafa",
         boxShadow: "0 1px 3px rgba(0,0,0,0.05)", // 스크롤 시 분리 효과
       }}
@@ -398,7 +420,59 @@ function Toolbar({ editor }: { editor: any }) {
 }
 
 export default function MyEditorCompoV3() {
+  // 이 방법은 상태가 바뀔 때만 리렌더링됩니다.
+  const userInfo = useAuthStore((state) => state.userInfo);
+
+  // 2. 액션 함수 가져오기 (SET을 위한 함수)
+  const { login, logout } = useAuthStore(
+    useShallow((state) => ({
+      login: state.login,
+      logout: state.logout,
+    }))
+  );
   const navigate = useNavigate();
+  const [title, setTitle] = useState("새로운 게시물 제목");
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+  const [memo, setMemo] = useState<gtypes.MemoStrtype>({});
+  const [searchParams] = useSearchParams();
+  const memoId = Number(searchParams?.get("id") ?? 0);
+
+  useEffect(() => {
+    validation();
+  }, []);
+  async function validation() {
+    let result = await utils.verify_token(userInfo?.token ?? "");
+    if (result.includes("인증실패")) {
+      alert(`${result}. 로그인을 다시 해주세요.`);
+      await auth.signOut();
+      logout();
+    }
+  }
+
+  async function getMemo() {
+    try {
+      const fetchOption = {
+        method: "GET",
+        headers: {
+          Authorization: "",
+        },
+      };
+      let result: any = await fetch(
+        `${API_BASE_URL}/api/board_v2/get_memo_by_id?id=${memoId}`,
+        fetchOption
+      );
+      result = await result.json();
+      if (!result?.success) {
+        alert(`메모 데이터 가져오기 실패. ${result?.msg}`);
+        return;
+      }
+      console.log(`# result?.data: `, result?.data);
+      setMemo(result?.data);
+    } catch (error: any) {
+      console.log(`서버 에러! ${error?.message ?? ""}`);
+    }
+  }
+
   const editor = useEditor({
     extensions: [
       TextStyle,
@@ -486,13 +560,17 @@ export default function MyEditorCompoV3() {
     const payload = {
       html: editor.getHTML(),
       json: editor.getJSON(),
+      title: title,
     };
 
     console.log("--- Editor Content Saved ---");
     try {
       let res: any = await fetch(fullUrl, {
         method: "POST",
-        headers: { Authorization: "", "Content-Type": "application/json" },
+        headers: {
+          Authorization: `Bearer ${userInfo?.token ?? ""}`,
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify(payload),
       });
 
@@ -512,6 +590,19 @@ export default function MyEditorCompoV3() {
 
   return (
     <div style={{ maxWidth: 760, margin: "24px auto", padding: 16 }}>
+      {/* 제목 입력 필드 */}
+      <input
+        type="text"
+        placeholder="여기에 제목을 입력하세요."
+        value={memo?.title ?? ""}
+        onChange={(event) => {
+          setMemo({
+            ...memo,
+            title: event?.target?.value ?? "",
+          });
+        }}
+        style={titleInputStyle}
+      />
       {/* ⭐️ 스크롤 가능한 메인 카드 컨테이너 ⭐️ */}
       <div
         style={{
