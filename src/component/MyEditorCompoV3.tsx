@@ -583,6 +583,7 @@ export default function MyEditorCompoV3() {
       html: editor?.getHTML(),
       json: editor?.getJSON(),
       title: title,
+      id: memo?.id ?? 0,
     };
 
     console.log("--- Editor Content Saved ---");
