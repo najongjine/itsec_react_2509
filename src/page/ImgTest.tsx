@@ -45,6 +45,7 @@ export default function ImgTest() {
         alert(`메모 데이터 가져오기 실패. ${result?.msg}`);
         return;
       }
+      console.log(`# result: `, result);
     } catch (err: any) {
       console.error("Upload Error:", err);
       // 'err'가 Error 인스턴스인지 확인하고 메시지를 설정
