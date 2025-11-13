@@ -24,7 +24,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/calc" element={<Calc />} />
           <Route path="/lotto" element={<Lotto />} />
-          <Route path="/test" element={<ImgTest />} />
+          <Route path="/imgtest" element={<ImgTest />} />
           <Route path="/editor" element={<MyEditor />} />
         </Routes>
         <Footer />
