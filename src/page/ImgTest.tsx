@@ -5,6 +5,8 @@ export default function ImgTest() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [predict1, setPredict1] = useState<any[]>();
+  const [imagePreviewUrl, setImagePreviewUrl] = useState<string>("");
 
   // 파일 입력 변경 핸들러
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -12,6 +14,8 @@ export default function ImgTest() {
     const file = event.target.files ? event.target.files[0] : null;
     setSelectedFile(file);
     setError(null); // 에러 초기화
+    const newUrl = URL.createObjectURL(file);
+    setImagePreviewUrls(newUrls);
   };
 
   useEffect(() => {}, []);
@@ -46,6 +50,7 @@ export default function ImgTest() {
         return;
       }
       console.log(`# result: `, result);
+      setPredict1(result?.predictions ?? []);
     } catch (err: any) {
       console.error("Upload Error:", err);
       // 'err'가 Error 인스턴스인지 확인하고 메시지를 설정
@@ -76,9 +81,16 @@ export default function ImgTest() {
         </button>
       </div>
       <hr />
-      {error && (
-        <p style={{ color: "red", fontWeight: "bold" }}>🚨 에러: {error}</p>
-      )}
+      <div>
+        {error && (
+          <p style={{ color: "red", fontWeight: "bold" }}>🚨 에러: {error}</p>
+        )}
+      </div>
+      <div>
+        {predict1?.map((e) => (
+          <div>{JSON.stringify(e)}</div>
+        ))}
+      </div>
     </div>
   );
 }
