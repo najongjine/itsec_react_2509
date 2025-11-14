@@ -70,3 +70,51 @@ ul.topnav li a:hover {
   background-color: #dddddd;
   color: black;
 }
+
+/* topnav의 현재 활성화된 페이지 스타일 */
+ul.topnav li a.active {
+  background-color: transparent; /* 이미지에서 'CNN' 탭이 노란색인 것을 반영 */
+  color: #f1f1f1;
+  border-bottom: 4px solid #ffffff;
+}
+
+/* ---------------------------------- */
+/* 서브 메뉴 스타일 */
+/* ---------------------------------- */
+ul.subnav {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  /* 서브 메뉴는 탑 메뉴보다 살짝 밝은 배경색을 사용했습니다. */
+  background-color: #444444;
+  /* 자식 요소(li)들이 가운데로 정렬 */
+  justify-content: center;
+  border-bottom: 5px solid #333333; /* 아래쪽에 작은 경계선 추가 */
+}
+
+/* 서브 메뉴 링크 스타일 */
+ul.subnav li a {
+  display: block;
+  color: #f1f1f1;
+  padding: 14px 20px;
+  text-decoration: none;
+  font-size: 18px;
+  /* ❌ 활성화되지 않은 탭에 경계선 제거 */
+  border: 5px solid transparent;
+  border-bottom: none;
+  font-weight: bold;
+}
+
+/* 서브 메뉴 링크 호버 스타일 */
+ul.subnav li a:hover {
+  background-color: #555555;
+  color: white;
+}
+
+/* 서브 메뉴의 현재 활성화된 탭 스타일 */
+ul.subnav li a.subnav-active {
+  background-color: #555555; /* 짙은 회색 배경으로 변경 */
+  color: white; /* 흰색 텍스트 */
+  border: none;
+  border-bottom: 3px solid #fce83a;
+}

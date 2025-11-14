@@ -14,8 +14,8 @@ export default function ImgTest() {
     const file = event.target.files ? event.target.files[0] : null;
     setSelectedFile(file);
     setError(null); // 에러 초기화
-    const newUrl = URL.createObjectURL(file);
-    setImagePreviewUrls(newUrls);
+    //const newUrl = URL.createObjectURL(file);
+    //setImagePreviewUrls(newUrls);
   };
 
   useEffect(() => {}, []);
