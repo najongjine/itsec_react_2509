@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 
-export default function BasicEffiModelCompo() {
-  const CNN_API_URL = "https://wildojisan-cnn-hf-2509.hf.space/classify";
+export default function BasicEffiFinetuneCompo() {
+  const CNN_API_URL =
+    "https://wildojisan-cnn-hf-2509.hf.space/classify_muffin_chihuahua";
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -76,7 +77,7 @@ export default function BasicEffiModelCompo() {
 
   return (
     <div>
-      <div>EfficientnetB0 기본모델</div>
+      <div>EfficientnetB0 파인튜닝. 머핀 vs 치와와</div>
       <hr />
       <div>
         <img width="300vw; height: auto;" src={imagePreviewUrl} />

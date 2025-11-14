@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import BasicEffiModelCompo from "../component/cnn/BasicEffiModelCompo";
+import BasicEffiFinetuneCompo from "../component/cnn/BasicEffiFinetuneCompo";
 
 export default function ImgTest() {
   // 1. URL의 쿼리 파라미터를 읽습니다.
@@ -11,6 +12,7 @@ export default function ImgTest() {
   return (
     <div className="content-margin-padding">
       {modelType == "base" && <BasicEffiModelCompo />}
+      {modelType != "base" && <BasicEffiFinetuneCompo />}
     </div>
   );
 }
