@@ -1,7 +1,13 @@
 import { useEffect, useState } from "react";
 
-export default function BasicEffiModelCompo() {
-  const CNN_API_URL = "https://wildojisan-cnn-hf-2509.hf.space/classify";
+interface Img_Response_Compo_Props {
+  apiUrl: string;
+  componentTitle: string;
+}
+export default function Img_Response_Compo({
+  apiUrl,
+  componentTitle,
+}: Img_Response_Compo_Props) {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -46,7 +52,7 @@ export default function BasicEffiModelCompo() {
     formData.append("file", selectedFile);
 
     try {
-      const response = await fetch(CNN_API_URL, {
+      const response = await fetch(apiUrl, {
         method: "POST",
         // FormData를 사용할 때는 'Content-Type': 'multipart/form-data' 헤더를
         // **명시적으로 설정하지 않아야** 브라우저가 boundary를 자동으로 설정합니다.
@@ -76,7 +82,7 @@ export default function BasicEffiModelCompo() {
 
   return (
     <div>
-      <div>EfficientnetB0 기본모델</div>
+      <div>{componentTitle}</div>
       <hr />
       <div>
         <img width="300vw; height: auto;" src={imagePreviewUrl} />

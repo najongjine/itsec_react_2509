@@ -91,7 +91,11 @@ export default function Header() {
           </li>
           <li>
             {/* 서브 메뉴 링크 (예시: 파인튜닝 모델) */}
-            <Link to="/imgtest?model=fine">파인튜닝 모델</Link>
+            <Link to="/imgtest?model=muffin_chihuahua">치와와vs머핀 모델</Link>
+          </li>
+          <li>
+            {/* 서브 메뉴 링크 (예시: 파인튜닝 모델) */}
+            <Link to="/imgtest?model=plantdisease">식물잎사귀 병충해모델</Link>
           </li>
         </ul>
       )}
