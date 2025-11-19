@@ -66,7 +66,13 @@ export default function Img_Response_Compo({
         return;
       }
       console.log(`# result: `, result);
-      setPredict1(result?.predictions ?? []);
+      if (result?.predictions) {
+        setPredict1(result?.predictions ?? []);
+      } else if (result?.results) {
+        setPredict1(result?.results ?? []);
+      } else {
+        setPredict1([]);
+      }
     } catch (err: any) {
       console.error("Upload Error:", err);
       // 'err'가 Error 인스턴스인지 확인하고 메시지를 설정
