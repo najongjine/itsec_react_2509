@@ -11,6 +11,7 @@ import Lotto from "./page/Lotto";
 import ImgTest from "./page/ImgTest";
 import MyEditor from "./page/MyEditor";
 import MemoDetailV2 from "./page/MemoDetailV2";
+import FaceRecog from "./page/FaceRecog";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/calc" element={<Calc />} />
           <Route path="/lotto" element={<Lotto />} />
           <Route path="/imgtest" element={<ImgTest />} />
+          <Route path="/facerecog" element={<FaceRecog />} />
           <Route path="/editor" element={<MyEditor />} />
         </Routes>
         <Footer />

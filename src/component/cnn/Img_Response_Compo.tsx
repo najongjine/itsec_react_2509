@@ -62,7 +62,7 @@ export default function Img_Response_Compo({
       // 서버 응답을 JSON으로 파싱
       const result: any = await response.json();
       if (!result?.success) {
-        alert(`메모 데이터 가져오기 실패. ${result?.msg}`);
+        alert(`데이터 가져오기 실패. ${result?.msg}`);
         return;
       }
       console.log(`# result: `, result);
