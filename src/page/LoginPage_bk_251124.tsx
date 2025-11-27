@@ -8,19 +8,18 @@ import { useAuthStore } from "../store/authStore";
 import * as gtypes from "../types/global_types"; // 타입 경로는 필요에 따라 수정하세요.
 import { useNavigate } from "react-router-dom";
 import { useShallow } from "zustand/react/shallow";
-import { getRedirectResult } from "firebase/auth";
 
 const LoginPage: React.FC = () => {
   // 1. 상태 읽기 (READ)
   // useAuthStore 훅을 통해 현재 상태에서 userInfo를 가져옵니다.
   // 이 방법은 상태가 바뀔 때만 리렌더링됩니다.
-  const userInfo = useAuthStore((state: any) => state.userInfo);
+  const userInfo = useAuthStore((state) => state.userInfo);
 
   // 2. 액션 함수 가져오기 (SET을 위한 함수)
   const { login, logout } = useAuthStore(
-    useShallow((state: any) => ({
-      login: state?.login,
-      logout: state?.logout,
+    useShallow((state) => ({
+      login: state.login,
+      logout: state.logout,
     }))
   );
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -29,31 +28,10 @@ const LoginPage: React.FC = () => {
 
   // 컴포넌트 마운트 시, 로그인 상태 변화 리스너 설정 (선택 사항)
   React.useEffect(() => {
-    // 2. [중요] 리다이렉션 로그인 결과 확인 로직 추가
-    const checkRedirectLogin = async () => {
-      try {
-        const result = await getRedirectResult(auth);
-        if (result && result?.user) {
-          // 리다이렉션을 통해 돌아왔고, 사용자 정보가 있으면 handleSuccess 호출
-          await handleSuccess(result?.user);
-        }
-      } catch (error) {
-        // 리다이렉션 처리 중 오류 발생
-        if (error instanceof Error) {
-          handleError(error);
-        }
-      }
-    };
-
-    // onAuthStateChanged 리스너 설정
-    const unsubscribe = auth.onAuthStateChanged((user: any) => {});
-
-    // 리다이렉트 결과 확인 함수 호출
-    checkRedirectLogin();
-
+    const unsubscribe = auth.onAuthStateChanged((user) => {});
     // 클린업 함수
     return unsubscribe;
-  }, []); // 빈 배열: 최초 마운트 시 1회 실행
+  }, []);
 
   const handleSignOut = async () => {
     try {
