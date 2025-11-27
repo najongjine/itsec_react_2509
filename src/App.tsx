@@ -12,6 +12,9 @@ import ImgTest from "./page/ImgTest";
 import MyEditor from "./page/MyEditor";
 import MemoDetailV2 from "./page/MemoDetailV2";
 import FaceRecog from "./page/FaceRecog";
+import { TossPage_Checkout } from "./page/TossPage_Checkout";
+import { TossPage_Success } from "./page/TossPage_Success";
+import { TossPage_Fail } from "./page/TossPage_Fail";
 
 function App() {
   return (
@@ -28,6 +31,9 @@ function App() {
           <Route path="/imgtest" element={<ImgTest />} />
           <Route path="/facerecog" element={<FaceRecog />} />
           <Route path="/editor" element={<MyEditor />} />
+          <Route path="/toss_checkout" element={<TossPage_Checkout />} />
+          <Route path="/toss_success" element={<TossPage_Success />} />
+          <Route path="/toss_fail" element={<TossPage_Fail />} />
         </Routes>
         <Footer />
       </BrowserRouter>
