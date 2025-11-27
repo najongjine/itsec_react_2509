@@ -7,7 +7,7 @@ const customerKey = "zz7xPSZywWP1Z9K3tSk1L";
 export function TossPage_Checkout() {
   const [amount, setAmount] = useState({
     currency: "KRW",
-    value: 10,
+    value: 110,
   });
   const [ready, setReady] = useState(false);
   const [widgets, setWidgets] = useState<any>(null);
