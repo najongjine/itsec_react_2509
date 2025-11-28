@@ -84,6 +84,9 @@ export default function Header() {
           </Link>
         </li>
         <li>
+          <Link to="/geminirag">Gemini Rag</Link>
+        </li>
+        <li>
           <Link to="/calc">계산기</Link>
         </li>
         <li>
