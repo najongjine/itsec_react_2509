@@ -69,37 +69,37 @@ const titleInputStyle: React.CSSProperties = {
 
 /** (선택) 서버 업로드 훅 */
 async function uploadAndGetUrl(file: File): Promise<string> {
-  const CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
-  const UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
-  // Cloudinary REST API 엔드포인트 URL
-  const url = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
+  // .env 파일에 VITE_IMGBB_API_KEY를 정의해야 합니다.
+  const API_KEY = import.meta.env.VITE_IMGBB_KEY;
+  const ENDPOINT = "https://api.imgbb.com/1/upload";
 
-  // FormData 객체를 생성하여 파일과 업로드 프리셋을 담습니다.
   const formData = new FormData();
-  formData.append("file", file);
-  formData.append("upload_preset", UPLOAD_PRESET);
+  // ImgBB API 요구사항: key(필수), image(필수)
+  formData.append("key", API_KEY);
+  formData.append("image", file);
+  // 선택사항: 파일명 명시
+  formData.append("name", file.name);
 
   try {
-    const response = await fetch(url, {
+    const response = await fetch(ENDPOINT, {
       method: "POST",
-      body: formData, // FormData를 body로 직접 전송
+      body: formData,
     });
 
-    if (!response.ok) {
-      // HTTP 에러 처리
-      const errorText = await response.text();
-      console.error("Cloudinary upload error response:", errorText);
-      throw new Error(
-        "Cloudinary upload failed with status " + response.status
-      );
+    const result = await response.json();
+
+    // HTTP 상태가 실패거나, API 응답의 success가 false인 경우
+    if (!response.ok || !result.success) {
+      const errorMsg = result?.error?.message || "Unknown error";
+      console.error("ImgBB upload error:", errorMsg);
+      throw new Error("ImgBB upload failed: " + errorMsg);
     }
 
-    const data = await response.json();
-    // 성공 시 Cloudinary 응답에서 secure_url을 반환합니다.
-    return data.secure_url;
-  } catch (error) {
-    console.error("Error uploading to Cloudinary:", error);
-    // 업로드 실패 시 대체 URL 또는 빈 문자열 반환
+    // 성공 시 문서에 명시된 대로 data.url (원본 이미지 URL) 반환
+    // 필요에 따라 result.data.display_url 등을 사용할 수도 있습니다.
+    return result.data.url;
+  } catch (error: any) {
+    console.error("Error uploading to ImgBB:", error?.message);
     return "";
   }
 }
